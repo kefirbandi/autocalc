@@ -1,0 +1,20 @@
+# Text files
+
+*.py text eol=lf
+*.cs text eol=lf
+*.xml text eol=lf
+*.xml_t text eol=lf
+*.csv text eol=lf
+*.txt text eol=lf
+*.bat text eol=crlf
+*.cfg text eol=lf
+*.rst text eol=lf
+*.config text eol=lf
+*.manifest text eol=lf
+*.js text eol=lf
+*.html text eol=lf
+*.conf text eol=lf
+
+Makefile text eol=lf
+README text eol=lf
+

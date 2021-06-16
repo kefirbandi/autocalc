@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*egg-info
+dist/
+.pytest_cache/
+build/
+
+.idea/
+docs/build/
+# docs/source/_templates/
+docs/source/_scripts/
+docs/source/_apidoc/
+.ipynb_checkpoints/
+
