@@ -1,8 +1,8 @@
 from IPython.display import display
-from ipywidgets import FloatText, FileUpload, Button, HBox
+from ipywidgets import FloatText, FileUpload, Button, HBox, DatePicker
 import math
 
-UNDEFINED_WIDGET_STATES={FloatText:math.nan}
+UNDEFINED_WIDGET_STATES=[(FloatText,math.nan), (DatePicker,None)]
 
 class _Undefined:
     def __str__(self):
@@ -96,7 +96,12 @@ class Var:
         self.lazy = lazy
         self.widget = widget
         if widget is not None:
-            self.widget_default=UNDEFINED_WIDGET_STATES.get(type(widget),widget.value)
+            for k, v in UNDEFINED_WIDGET_STATES:
+                if isinstance(widget, k):
+                    self.widget_default = v
+                    break
+            else:
+                self.widget_default = widget.value
             widget.observe(lambda change:self._widget_changed(), names='value')
         self.read_only = read_only
         if read_only and widget is not  None:
@@ -111,9 +116,14 @@ class Var:
 
         # self.outer_obj = None
 
-    converters = {FileUpload: lambda value: list(value.values())[0]['content'].decode()}
+    converters = [(FileUpload, lambda value: list(value.values())[0]['content'].decode())]
     def _read_widget_value(self):
-        for k,v in self.converters.items():
+        for k, v in UNDEFINED_WIDGET_STATES:
+            if isinstance(self.widget, k):
+                if self.widget.value == self.widget_default:
+                    return undefined
+
+        for k,v in self.converters:
             if isinstance(self.widget, k):
                 converter = v
                 break
