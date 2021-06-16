@@ -236,30 +236,34 @@ class Var:
     def is_undefined(self):
         return self._get_raw() is undefined
 
-    def get(self):
+    def get(self, undefined_inputs=None):
         """
 
         Returns: The current value if set, or triggers the calculation and the returns the value if undefined.
         Note, that this function may return undefined, depending on circumstances.
 
         """
+        if undefined_inputs is None:
+            undefined_inputs = set()
         if (self.fun is not None) and self.is_undefined():
-            self._recalc_explicite(False)
+            self._recalc_explicite(False, undefined_inputs)
         return self._get_raw()
 
-    def recalc(self):
+    def recalc(self, undefined_inputs=None):
         """
         The difference between `.get` and `.recalc` is that the latter triggers a function evaluation
         even if the value is not undefined.
         May be needed in cases, when the Var depends on other Vars, but may also be overwritten directly.
 
         """
+        if undefined_inputs is None:
+            undefined_inputs = set()
         if (self.fun is not None):
-            self._recalc_explicite(True)
+            self._recalc_explicite(True, undefined_inputs)
         return self._get_raw()
 
 
-    def _recalc_explicite(self, force=False):
+    def _recalc_explicite(self, force=False, undefined_inputs=None):
         """
         Do our best to recalc, not just lazily: if something is missing from below,
         do a recalc there as well
@@ -267,11 +271,13 @@ class Var:
         """
         # This is the recursive part, where we walk strictly down on our dependencies
         # We collect those nodes which have changed
+        if undefined_inputs is None:
+            undefined_inputs = set()
         changed = set()
         # By the following function we set our own value. But the function goes down recursively
         # to set the value of our dependencies (before calculating our value of course) if possible.
         # Also collects those nodes, which have changed (= their values was set).
-        self._calc_and_collect(changed, force)
+        self._calc_and_collect(changed, force, undefined_inputs)
 
         # Now for those values which are upstream (depend on us) to any of those which have changed we need to recalculate those.
         # This is because we require that at every point in time when we finish an internal function all nodes
@@ -282,22 +288,23 @@ class Var:
                 if ii not in changed:
                     ii._recalc_this_node_only()
 
-    def _calc_and_collect(self, changed, force=False):
+    def _calc_and_collect(self, changed, force=False, undefined_inputs=None):
         """
         Calculate the value of this node, and (before that) recursively the value of nodes on which this node depends.
         Also collect the nodes which have changed in the accumulator variable "changed", which is a set.
         :param changed:
         :return:
         """
+        if undefined_inputs is None:
+            undefined_inputs = set()
         if (self.is_undefined() and self.inputs) or force: #i.e. we should try to update ourselves
-            values = [v._calc_and_collect(changed) for v in self.inputs]
-            # for vv, ii in zip(values, self.inputs):
-            #     if vv is undefined:
-            #         print('Variable %s needed to calculate %s is undefined' % (ii, self))
+            values = [v._calc_and_collect(changed, undefined_inputs=undefined_inputs) for v in self.inputs]
             v = self.fun(*values)
-            if v is not self._get_raw(): # Or in other words, if v is not undefined, as we are only in this "if" branch if our value is undefined
+            if v is not undefined:
                 self._set_raw(v)
                 changed.add(self)
+        if self.is_undefined() and not self.inputs:
+            undefined_inputs.add(self)
         return self._get_raw()
 
 
