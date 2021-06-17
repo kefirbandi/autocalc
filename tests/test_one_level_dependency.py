@@ -5,7 +5,6 @@ def _b(a):
     return 2*a
 
 def test_update():
-    print('asdfasdf')
     a = Var('A', initial_value=1)
     b = Var('B', fun=_b, inputs=[a])
     b_lazy = Var('B_lazy', fun=_b, inputs=[a], lazy=True)
