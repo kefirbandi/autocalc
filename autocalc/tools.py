@@ -19,7 +19,7 @@ class PreviewAcc(widgets.Accordion):
         self.value_var = value_var
 
         # setting the initial value to anything but undefined will keep the function from evaluating it at start
-        Var('_', fun=self._preview, inputs=[value_var], undefined_input_handling='function', initial_value=None)
+        Var(f'PreviewAccAction[{value_var.name}])', fun=self._preview, inputs=[value_var], undefined_input_handling='function', initial_value=None)
         self.observe(self.p, 'selected_index')
 
     def _preview(self, value):
@@ -35,17 +35,22 @@ class PreviewAcc(widgets.Accordion):
             with self.box:
                 clear_output()
                 print('Loading ...')
-                clear_output(wait=True)
-                undefined_inputs = set()
-                z = self.value_var.get(undefined_inputs=undefined_inputs)
+
+            undefined_inputs = set()
+            z = self.value_var.get(undefined_inputs=undefined_inputs)
+
+            with self.box:
                 clear_output()
-                if len(undefined_inputs):
-                    ui_str = '", "'.join(map(lambda x: x.name, undefined_inputs))
-                    msg = f'Could not calculate {self.value_var.name}, because the following inputs are undefined: "{ui_str}".'
+                if z is undefined:
+                    if len(undefined_inputs):
+                        ui_str = '", "'.join(map(lambda x: x.name, undefined_inputs))
+                        msg = f'Could not calculate {self.value_var.name}, because the following inputs are undefined: "{ui_str}".'
+                    else:
+                        msg = 'Could not calculate {self.value_var.name} for some reason'
                     print(msg)
                 else:
                     display(z)
             if 'open' in self.titles:
                 self.set_title(0, self.titles['open'])
         elif si is None:
-            self._preview(self.value_var.get())
+            self._preview(self.value_var._get_raw())
