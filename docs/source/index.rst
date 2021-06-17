@@ -36,6 +36,7 @@ publish with Voila.
 .. toctree::
    :maxdepth: 2
 
+   whats-new.rst
    auto/autocalc
 
 Indices and tables
