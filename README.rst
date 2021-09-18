@@ -77,3 +77,8 @@ That's it. With just a few lines we set up the dependency graph from our input v
 
 Features
 --------
+
+ * Ipywidgets integration + visual framework independent mode of operation.
+ * Read-only variables
+ * Lightweight, minimal library. Learn the basics in 10 minutes.
+ * "Lazy" variables, which only get invalidated when their input(s) change, but are not actually recalculated until explicitly requested. Useful for functions which take a long time to evaluate.
