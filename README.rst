@@ -16,20 +16,26 @@ Example
 
 In this example we will implement a quadratic equation solver. User can enter the `a`, `b` and `c` parameters of the
 
-.. math::
 
-    ax^2 + bx +c = 0
+    a*x*x + b*x +c = 0
 
 
-quadratic equation and we will calculate the two solutions: :math:`x_1` and :math:`x_2` by the following formula:
+quadratic equation and we will calculate the two solutions: `x1` and `x2` by the following formulas:
 
-.. math::
 
-    x_1, x_2 = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+    x1 = (-b + D)/(2a)
+
+    x2 = (b + D)/(2a)
+    
+where D is defined as 
+
+    D=sqrt(b*b - 4*a*c)
 
 In this example we assume a Jupyter notebook environment and the use of ipywidgets. The library was designed with this setup in mind, but the core functionality is independent of any interactive environment.
 
-First we declare and display our input variables::
+First we declare and display our input variables
+
+.. code-block:: python
 
     import ipywidgets as widgets
     from autocalc.autocalc import Var
@@ -55,7 +61,7 @@ Then we implement the code which calculates the solution::
         return (D+b)/2/a
     
     
-We are now ready to define and display our internal variable: :math:`D=\sqrt{b^2 - 4ac}` and output variables: :math:`x_1` and :math:`x_2`::
+We are now ready to define and display our internal variable: `D=sqrt(b*b - 4*a*c)` and output variables: `x1` and `x2`::
 
     D = Var('D', fun=Dfun, inputs=[a, b, c])
     x1 = Var('X1', fun=x1fun, inputs=[a, b, D], widget =     widgets.FloatText(), read_only=True)
