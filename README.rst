@@ -1,15 +1,15 @@
 autocalc
 ========
 
-A framework to keep track of dependencies in non-linear workflows.
+A framework to keep track of dependencies in nonlinear workflows.
 `Source code <https://github.com/kefirbandi/autocalc>`_
 
 About
 -----
 
- * Create event-driven apps in Python with ease, without writing call-back functions
+ * Create event-driven apps in Python with ease, without writing callback functions
  * Set up the functional relationship between your public (visible to user) as well as internal (hidden) variables, and
-   let autocalc take kare of keeping them in sync.
+   let autocalc take care of keeping them in sync.
 
 Example
 -------
@@ -27,6 +27,7 @@ quadratic equation and we will calculate the two solutions: :math:`x_1` and :mat
 
     x_1, x_2 = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
 
+In this example we assume a Jupyter notebook environment and the use of ipywidgets. The library was designed with this setup in mind, but the core functionality is independent of any interactive environment.
 
 First we declare and display our input variables::
 
@@ -64,4 +65,5 @@ We are now ready to define and display our internal variable: :math:`D=\sqrt{b^2
     
 That's it. With just a few lines we set up the dependency graph from our input variables to our output ones. Any time the user upgrades any of the input variables, the output will be updated automatically.
 
-
+Features
+--------
