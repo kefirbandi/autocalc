@@ -1,7 +1,8 @@
 What's New
 ==========
 
-
+v0.1.3
+------
 
 Documentation
 ~~~~~~~~~~~~~
