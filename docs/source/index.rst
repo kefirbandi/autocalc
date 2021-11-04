@@ -12,6 +12,7 @@ It is targeted mainly at data-scientist who would like to turn their notebook in
    :maxdepth: 1
 
    getting_started/getting_started.rst
+   user_guide/user_guide.rst
    whats-new.rst
    auto/autocalc
 

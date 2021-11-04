@@ -7,7 +7,7 @@ Documentation
 ~~~~~~~~~~~~~
 
 - Created a proper README.rst file introducing the purpose, main features and a code example.
-- Added the whole "Getting Started" section to the sphinx doc
+- Added the whole "Getting Started" and "User Guide" sections to the sphinx doc
 
 
 .. _whats-new.0.1.0:
