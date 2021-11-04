@@ -16,6 +16,7 @@ test_requires = [
 doc_build_requires = [
     'sphinx',
     'sphinx-rtd-theme',
+    'sphinx-argparse',
     'nbsphinx',
 ]
 
