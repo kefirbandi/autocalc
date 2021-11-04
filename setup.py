@@ -12,10 +12,13 @@ with codecs.open(path.join(HERE, 'README.rst'), encoding='utf-8') as f:
 test_requires = [
     # add test dependencies here
 ]
+
 doc_build_requires = [
     'sphinx',
-    'sphinx-rtd-theme'
+    'sphinx-rtd-theme',
+    'nbsphinx',
 ]
+
 extras_require = {
     'test': test_requires,
     'doc_build': doc_build_requires

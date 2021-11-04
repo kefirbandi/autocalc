@@ -1,6 +1,17 @@
 What's New
 ==========
 
+
+
+Documentation
+~~~~~~~~~~~~~
+
+- Created a proper README.rst file introducing the purpose, main features and a code example.
+- Added the whole "Getting Started" section to the sphinx doc
+
+
+.. _whats-new.0.1.0:
+
 v0.1.0
 ------
 
