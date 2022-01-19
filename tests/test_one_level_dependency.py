@@ -1,13 +1,13 @@
 from autocalc.autocalc import Var, undefined
 
 
-def _b(a):
+def double(a):
     return 2*a
 
 def test_update():
     a = Var('A', initial_value=1)
-    b = Var('B', fun=_b, inputs=[a])
-    b_lazy = Var('B_lazy', fun=_b, inputs=[a], lazy=True)
+    b = Var('B', fun=double, inputs=[a])
+    b_lazy = Var('B_lazy', fun=double, inputs=[a], lazy=True)
 
     assert b.get() == 2
     assert b_lazy._get_raw() is undefined
@@ -31,3 +31,13 @@ def test_update():
 
     assert len(undefined_inputs) == 1
     assert a in undefined_inputs
+
+def test_read_only():
+    a = Var('A', initial_value=1)
+    b = Var('B', fun=double, inputs=[a], read_only=True)
+
+    b.set(12)
+    assert b.get() == 2
+
+    a.set(6)
+    assert b.get() == 12

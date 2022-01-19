@@ -1,3 +1,5 @@
+import warnings
+
 from IPython.display import display
 from ipywidgets import FloatText, FileUpload, Button, HBox, DatePicker
 import math
@@ -111,8 +113,8 @@ class Var:
         # Var just created. No other Var depends on it yet, so no need to update anything upstream.
         # Just set or recalculate the value
         self._set_raw(initial_value, skip_updating_this_widget= initial_value is undefined) # The underlying value
-        if (initial_value is undefined) and (not lazy):
-            self.recalc()
+        if (initial_value is undefined) and (not lazy) and (self.fun is not None):
+            self._recalc_this_node_only()
 
         # self.outer_obj = None
 
@@ -317,7 +319,7 @@ class Var:
             self._set_raw(v)
 
     @property
-    def w(self):
+    def widget_set(self):
         """
         Returns the "thing" that you can put inside `display` or `HBox`.
         :return:
@@ -330,10 +332,15 @@ class Var:
             if help:
                 label.description += ' (?)'
                 label.tooltip = help
-                label.style.button_color = 'lightgreen'
+            label.style.button_color = 'lightgreen'
             return HBox([label, widget])
         else:
             return self._get_raw()
 
+    @property
+    def w(self):
+        warnings.warn('The "w" field of Var is deprecated. Please use "widget_set" instead.')
+        return self.widget_set
+
     def _ipython_display_(self):
-        display(self.w)
+        display(self.widget_set)
