@@ -1,6 +1,28 @@
 What's New
 ==========
 
+v0.2.1
+------
+
+Documentation
+~~~~~~~~~~~~~
+
+- Added what's new entries :)
+
+v0.2.0
+------
+
+Bug fixes
+~~~~~~~~~
+
+- Not executing lazy Vars in chains when creatin a new Var which depends on a lazy one.
+
+New Features
+~~~~~~~~~~~~
+
+- The .w method was renamed to .widget_set. Old method name kept for compatibility but may be removed in a future
+release
+
 v0.1.3
 ------
 
